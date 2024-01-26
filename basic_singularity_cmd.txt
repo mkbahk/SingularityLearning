@@ -1,0 +1,89 @@
+singularity pull --name ubuntu_s.simg shub://singularityhub/ubuntu:latest
+
+lsb_release -a
+
+singularity exec ubuntu_s.simg cat /etc/lsb-release
+
+sudo singularity build ubuntu_d.simg docker://ubuntu
+
+singularity shell ubuntu.simg
+exit
+
+singularity run ubuntu.simg
+
+singularity shell docker://ubuntu
+
+//Singularity.recipe
+Bootstrap: docker
+From: ubuntu:18.04
+
+%help
+		This is where you can add some helpful info.
+%environment
+		export MY_VAR='~~~This is my environment variable~~~'
+%files
+		env_print.py		/
+%post
+		apt-get -qq -y update
+		apt-get -qq -y install python > /dev/null
+%runscript
+		python /env_print.py
+//End of Sigularity.recipe
+
+sudo singularity build ubuntu.simg Signularity.recipe
+singularity help ubuntu.simg
+singularity inspect ubuntu.simg
+singularity shell ubuntu.simg
+singularity run ubuntu.simg
+
+singularity inspect --deffile ubuntu.simg
+
+ls
+hello_world.py
+
+sudo singularity build --sandbox ubuntu_s docker://ubuntu
+
+
+ls
+hello_world.py ubuntu_s
+
+//Singularity.recipe
+Bootstrap: docker
+From: ubuntu:18.04
+//End of Sigularity.recipe
+
+ls
+hello_world.py ubuntu_s
+sigularity exec ubuntu_s python hello_world.py
+
+singularity exec ubuntu_s python hello_world.py
+-->apt-get -y update
+-->apt-get -y install python
+
+
+//Singularity.recipe
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+		apt-get -y update
+		apt-get -y install python
+%files
+		hello_world.py /
+%runscript
+		python /hello_world.py
+//
+
+singularity exec ubuntu_s/ python hello_world.py
+
+singularity exec ubuntu_s/ python hello_world.py
+
+sudo singularity build ubuntu.simg Singularity.recipe
+
+$ ./ubuntu.simg
+Hello World!!
+$
+
+
+
+
